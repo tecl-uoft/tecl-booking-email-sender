@@ -19,6 +19,7 @@ export default async function Home({
   if(isThereErrors){
     errMsg = searchParams.error
   }
+  console.log("session: ")
   console.log(session)
   if(!session){
     return (
