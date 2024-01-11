@@ -73,9 +73,9 @@ export default async function Home({
             </div>
             <div>
               <label htmlFor="templateId">Template</label>
-              <select name="templateId" id="templateId">
+              <select name="template" id="templateId">
                 {bookingTemplates.map((template)=>{
-                  return <option key={template.name} value={template.id}>{template.name}</option>
+                  return <option key={template.name} value={`{"id":"${template.id}", "name":"${template.name}"}`}>{template.name}</option>
                 })}
               </select>
             </div>

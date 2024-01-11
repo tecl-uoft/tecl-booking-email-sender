@@ -32,7 +32,7 @@ export const getBookingTemplates = async (): Promise<Template[]> => {
   return bookingTemplates
 
 }
-
+const inpStudies = ["TryBaby","Tap n'Seek","Rubix","RP2", "LSM", "iPlay", "IDIB", "Dolly", "BabyGrit"]
 export const sendEmails = async (formData: FormData) => {
   const raName = formData.get("raName")
   let errOrException: null | "error" | "exception" = null
@@ -44,17 +44,22 @@ export const sendEmails = async (formData: FormData) => {
       errOrException = "exception"
       throw new Error("RA Name is empty")
     }
-
-    const templateId = formData.get("templateId")
-
-    if (typeof templateId !== "string") {
-      errOrException = "exception"
-      throw new Error("template ID is not a string")
+    const template = formData.get("template")
+    console.log(template)
+    if(typeof template !== "string"){
+      throw new Error("template is not a string")
     }
 
+    const templateJson: {id: string, name: string} = JSON.parse(template)
+
+    const templateId = templateJson.id
+
+    const templateName = templateJson.name
+
+    const templateStudyName = templateName.split("Booking Email")[0].trim()
+
     const csvUpload = formData.get("csvUpload")
-    console.log("hello")
-    console.log(csvUpload)
+
     if (csvUpload === null) {
       errOrException = "exception"
       throw new Error("no csv file has been provided")
@@ -125,7 +130,7 @@ export const sendEmails = async (formData: FormData) => {
           parentName: parent,
           childName: child,
           RAName: raName,
-          calendlyLink: "nothing test"
+          subject:`Fun new ${inpStudies.includes(templateStudyName) ? "in-person" : "online"} study at TECL!`,        
         },
         from: {
           name: "TECL (Sommerville Lab)",
@@ -136,6 +141,7 @@ export const sendEmails = async (formData: FormData) => {
           groupId: 17226,
         },
       };
+      console.log(msg)
       msgArr.push(msg)
     }
 
