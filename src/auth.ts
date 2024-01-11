@@ -16,4 +16,5 @@ let providers = [
     signOut
   } = NextAuth({
     providers: providers,
+    trustHost:true
   })
