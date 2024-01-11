@@ -77,8 +77,8 @@ export const sendEmails = async (formData: FormData) => {
       throw new Error(csvErrMsg)
     }
     const csvRows = csvText.split("\n")
-    const firstRow = csvRows[0].trim()
-
+    const firstRow = csvRows[0].trim().replace(/^"*|"*$/g,"")
+    
     if (firstRow !== "Parent Name,Child Name,Email") {
       errOrException = "exception"
       throw new Error(csvErrMsg)
@@ -88,9 +88,9 @@ export const sendEmails = async (formData: FormData) => {
       errOrException = "exception"
       throw new Error("CSV file has no data")
     }
-
+    let msgArr = []
     for (let i = 1; i < csvRows.length; i++) {
-      const parentAndChild = csvRows[i].trim().split(",")
+      const parentAndChild = csvRows[i].trim().replace(/^"*|"*$/g,"").split(",")
       console.log(parentAndChild)
 
       if (parentAndChild.length != 3) {
@@ -136,12 +136,18 @@ export const sendEmails = async (formData: FormData) => {
           groupId: 17226,
         },
       };
-      sgMail.send(msg)
+      msgArr.push(msg)
     }
+
+    for(let i=0; i<msgArr.length; i++){
+      await sgMail.send(msgArr[i])
+    }
+
   } catch(e){
     if(errOrException === "exception"){
       throw (e as Error)
     } else{
+      console.log(e)
       throw new Error("There was an internal server error. Please notify the lab manager of this.")
     }
   }
