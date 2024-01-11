@@ -1,0 +1,17 @@
+.template-form-style{
+    display:flex;
+    flex-direction:column;
+    row-gap:40px;
+    align-items:center;
+    div{
+        display:flex;
+        column-gap:30px;
+        label{
+            width:85px;
+            color: white
+        }
+        * {
+            color:black
+        }
+    }
+}
