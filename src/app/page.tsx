@@ -19,7 +19,7 @@ export default async function Home({
   if(isThereErrors){
     errMsg = searchParams.error
   }
-
+  console.log(session)
   if(!session){
     return (
       <div style={{position:"absolute", top:"50%", bottom:"50%", width:"100%", left:0}}>
