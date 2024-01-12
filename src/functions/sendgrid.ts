@@ -129,8 +129,7 @@ export const sendEmails = async (formData: FormData) => {
         dynamic_template_data: {
           parentName: parent,
           childName: child,
-          RAName: raName,
-          subject:`Fun new ${inpStudies.includes(templateStudyName) ? "in-person" : "online"} study at TECL!`,        
+          RAName: raName
         },
         from: {
           name: "TECL (Sommerville Lab)",
